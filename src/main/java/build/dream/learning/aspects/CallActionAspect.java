@@ -49,8 +49,7 @@ public class CallActionAspect {
         }
 
         if (throwable != null) {
-//            LogUtils.error(apiRestAction.error(), proceedingJoinPoint.getTarget().getClass().getName(), proceedingJoinPoint.getSignature().getName(), throwable, requestParameters);
-            throwable.printStackTrace();
+            LogUtils.error(apiRestAction.error(), proceedingJoinPoint.getTarget().getClass().getName(), proceedingJoinPoint.getSignature().getName(), throwable, requestParameters);
             if (throwable instanceof ApiException) {
                 returnValue = GsonUtils.toJson(new ApiRest(throwable));
             } else {
