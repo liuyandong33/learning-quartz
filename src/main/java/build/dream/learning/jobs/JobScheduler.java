@@ -15,6 +15,7 @@ public class JobScheduler {
         Scheduler scheduler = schedulerFactoryBean.getScheduler();
         scheduler.clear();
         String dataJobCronExpression = "*/5 * * * * ?";
+        dataJobCronExpression = null;
         if (StringUtils.isNotBlank(dataJobCronExpression)) {
             JobDetail dataJobDetail = JobBuilder.newJob(DataJob.class).withIdentity("dataJob", "cateringJobGroup").build();
             CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(dataJobCronExpression);
