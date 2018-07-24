@@ -6,8 +6,9 @@ import build.dream.common.constants.Constants;
 import build.dream.common.utils.ApplicationHandler;
 import build.dream.common.utils.ConfigurationUtils;
 import build.dream.common.utils.GsonUtils;
-import build.dream.learning.jobs.CustomJob;
+import build.dream.learning.jobs.OrderInvalidJob;
 import build.dream.learning.models.order.StartJobModel;
+import build.dream.learning.models.order.StopJobModel;
 import org.quartz.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.math.BigInteger;
+import java.util.Date;
 import java.util.Map;
 
 @Controller
@@ -26,8 +27,10 @@ public class OrderController {
     @Autowired
     private SchedulerFactoryBean schedulerFactoryBean;
     private static final String PARTITION_CODE = ConfigurationUtils.getConfigurationSafe(Constants.PARTITION_CODE);
+    private static final String ORDER_JOB_GROUP = PARTITION_CODE + "_order";
+    private static final String ORDER_TRIGGER_GROUP = PARTITION_CODE + "_order";
 
-    @RequestMapping(value = "/startJob", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/startJob", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     @ApiRestAction(error = "开始失效订单定时任失败")
     public String startSimpleJob() throws Exception {
@@ -35,42 +38,45 @@ public class OrderController {
         StartJobModel startJobModel = ApplicationHandler.instantiateObject(StartJobModel.class, requestParameters);
         startJobModel.validateAndThrow();
 
-        BigInteger orderId = startJobModel.getOrderId();
-        long interval = startJobModel.getInterval();
+        String orderId = startJobModel.getOrderId().toString();
+        Date startTime = startJobModel.getStartTime();
 
         Scheduler scheduler = schedulerFactoryBean.getScheduler();
 
-        JobBuilder jobBuilder = JobBuilder.newJob(CustomJob.class);
-        jobBuilder.withIdentity(orderId.toString(), PARTITION_CODE + "_order");
-        JobDetail dataJobDetail = jobBuilder.build();
+        JobBuilder jobBuilder = JobBuilder.newJob(OrderInvalidJob.class);
+        jobBuilder.withIdentity(orderId, ORDER_JOB_GROUP);
+        JobDetail orderInvalidJobDetail = jobBuilder.build();
+        JobDataMap jobDataMap = orderInvalidJobDetail.getJobDataMap();
+        jobDataMap.put("orderId", orderId);
 
         SimpleScheduleBuilder simpleScheduleBuilder = SimpleScheduleBuilder.simpleSchedule();
-        simpleScheduleBuilder.withRepeatCount(1);
-        simpleScheduleBuilder.withIntervalInMilliseconds(interval);
 
         TriggerBuilder<Trigger> triggerBuilder = TriggerBuilder.newTrigger();
-        triggerBuilder.withIdentity("order", PARTITION_CODE + "_order");
+        triggerBuilder.withIdentity(orderId, ORDER_TRIGGER_GROUP);
         triggerBuilder.withSchedule(simpleScheduleBuilder);
+        triggerBuilder.startAt(startTime);
 
         Trigger trigger = triggerBuilder.build();
-        scheduler.scheduleJob(dataJobDetail, trigger);
+        scheduler.scheduleJob(orderInvalidJobDetail, trigger);
         return GsonUtils.toJson(ApiRest.builder().message("开始失效订单定时任务成功！").successful(true).build());
     }
 
     @RequestMapping(value = "/stopJob", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    public String stopJob() throws SchedulerException {
+    public String stopJob() throws Exception {
         Map<String, String> requestParameters = ApplicationHandler.getRequestParameters();
-        String orderCode = requestParameters.get("orderCode");
-        ApplicationHandler.notBlank(orderCode, "orderCode");
+        StopJobModel stopJobModel = ApplicationHandler.instantiateObject(StopJobModel.class, requestParameters);
+        stopJobModel.validateAndThrow();
+
+        String orderId = stopJobModel.getOrderId().toString();
 
         Scheduler scheduler = schedulerFactoryBean.getScheduler();
-        TriggerKey triggerKey = TriggerKey.triggerKey(orderCode, "cateringJobGroup");
+        TriggerKey triggerKey = TriggerKey.triggerKey(orderId, ORDER_JOB_GROUP);
 
         scheduler.pauseTrigger(triggerKey);
         scheduler.unscheduleJob(triggerKey);
 
-        JobKey jobKey = JobKey.jobKey(orderCode, "cateringJobGroup");
+        JobKey jobKey = JobKey.jobKey(orderId, ORDER_TRIGGER_GROUP);
         scheduler.deleteJob(jobKey);
 
         return Constants.SUCCESS;

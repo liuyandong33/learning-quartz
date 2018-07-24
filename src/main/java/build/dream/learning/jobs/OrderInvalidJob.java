@@ -1,15 +1,28 @@
 package build.dream.learning.jobs;
 
-import build.dream.common.utils.LogUtils;
+import build.dream.common.utils.ConfigurationUtils;
+import build.dream.learning.constants.Constants;
 import org.quartz.Job;
+import org.quartz.JobDataMap;
+import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 
 import java.util.UUID;
 
 public class OrderInvalidJob implements Job {
+    @Autowired
+    private KafkaTemplate<String, String> kafkaTemplate;
+
     @Override
-    public void execute(JobExecutionContext context) throws JobExecutionException {
-        LogUtils.info(UUID.randomUUID().toString());
+    public void execute(JobExecutionContext context) {
+        JobDetail jobDetail = context.getJobDetail();
+        JobDataMap jobDataMap = jobDetail.getJobDataMap();
+
+        String orderId = jobDataMap.getString("orderId");
+
+        String topic = ConfigurationUtils.getConfigurationSafe(Constants.ORDER_INVALID_TOPIC);
+        kafkaTemplate.send(topic, UUID.randomUUID().toString(), orderId);
     }
 }

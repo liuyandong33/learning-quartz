@@ -13,6 +13,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.InvocationTargetException;
@@ -22,6 +23,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Aspect
 @Component
+@Order
 public class CallActionAspect {
     @Autowired
     private ApplicationContext applicationContext;
