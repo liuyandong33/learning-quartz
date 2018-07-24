@@ -1,4 +1,4 @@
-package build.dream.learning.controllers;
+package build.dream.job.controllers;
 
 import build.dream.common.annotations.ApiRestAction;
 import build.dream.common.api.ApiRest;
@@ -6,9 +6,9 @@ import build.dream.common.constants.Constants;
 import build.dream.common.utils.ApplicationHandler;
 import build.dream.common.utils.ConfigurationUtils;
 import build.dream.common.utils.GsonUtils;
-import build.dream.learning.jobs.OrderInvalidJob;
-import build.dream.learning.models.order.StartJobModel;
-import build.dream.learning.models.order.StopJobModel;
+import build.dream.job.jobs.OrderInvalidJob;
+import build.dream.job.models.order.StartJobModel;
+import build.dream.job.models.order.StopJobModel;
 import org.quartz.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;

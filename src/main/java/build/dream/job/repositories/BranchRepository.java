@@ -1,6 +1,6 @@
-package build.dream.learning.repositories;
+package build.dream.job.repositories;
 
-import build.dream.learning.domains.Branch;
+import build.dream.job.domains.Branch;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

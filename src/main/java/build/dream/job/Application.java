@@ -1,4 +1,4 @@
-package build.dream.learning;
+package build.dream.job;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

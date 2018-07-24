@@ -1,7 +1,7 @@
-package build.dream.learning.jobs;
+package build.dream.job.jobs;
 
 import build.dream.common.utils.ConfigurationUtils;
-import build.dream.learning.constants.Constants;
+import build.dream.job.constants.Constants;
 import org.quartz.Job;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;

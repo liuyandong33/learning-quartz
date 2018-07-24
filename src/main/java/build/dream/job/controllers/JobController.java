@@ -1,4 +1,4 @@
-package build.dream.learning.controllers;
+package build.dream.job.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

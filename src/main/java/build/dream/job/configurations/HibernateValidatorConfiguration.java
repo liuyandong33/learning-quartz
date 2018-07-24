@@ -1,4 +1,4 @@
-package build.dream.learning.configurations;
+package build.dream.job.configurations;
 
 import org.hibernate.validator.HibernateValidator;
 import org.springframework.beans.factory.annotation.Autowired;

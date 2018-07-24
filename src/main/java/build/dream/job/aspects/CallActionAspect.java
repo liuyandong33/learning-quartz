@@ -1,4 +1,4 @@
-package build.dream.learning.aspects;
+package build.dream.job.aspects;
 
 import build.dream.common.annotations.ApiRestAction;
 import build.dream.common.api.ApiRest;
@@ -36,7 +36,7 @@ public class CallActionAspect {
         return serviceMap.get(serviceClass);
     }
 
-    @Around(value = "execution(public * build.dream.learning.controllers.*.*(..)) && @annotation(apiRestAction)")
+    @Around(value = "execution(public * build.dream.job.controllers.*.*(..)) && @annotation(apiRestAction)")
     public Object callApiRestAction(ProceedingJoinPoint proceedingJoinPoint, ApiRestAction apiRestAction) {
         Map<String, String> requestParameters = ApplicationHandler.getRequestParameters();
         Object returnValue = null;

@@ -1,4 +1,4 @@
-package build.dream.learning.models.job;
+package build.dream.job.models.job;
 
 import build.dream.common.models.BasicModel;
 

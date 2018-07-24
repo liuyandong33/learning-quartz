@@ -1,4 +1,4 @@
-package build.dream.learning.models.order;
+package build.dream.job.models.order;
 
 import build.dream.common.models.BasicModel;
 

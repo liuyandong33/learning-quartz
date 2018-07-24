@@ -1,7 +1,7 @@
-package build.dream.learning.controllers;
+package build.dream.job.controllers;
 
 import build.dream.common.utils.GsonUtils;
-import build.dream.learning.services.BranchService;
+import build.dream.job.services.BranchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

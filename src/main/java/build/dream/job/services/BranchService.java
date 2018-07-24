@@ -1,7 +1,7 @@
-package build.dream.learning.services;
+package build.dream.job.services;
 
 import build.dream.common.api.ApiRest;
-import build.dream.learning.repositories.BranchRepository;
+import build.dream.job.repositories.BranchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

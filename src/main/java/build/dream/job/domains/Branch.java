@@ -1,6 +1,4 @@
-package build.dream.learning.domains;
-
-import org.hibernate.annotations.GeneratorType;
+package build.dream.job.domains;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

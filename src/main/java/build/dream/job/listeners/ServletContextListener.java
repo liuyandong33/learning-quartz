@@ -1,7 +1,7 @@
-package build.dream.learning.listeners;
+package build.dream.job.listeners;
 
 import build.dream.common.listeners.BasicServletContextListener;
-import build.dream.learning.jobs.JobScheduler;
+import build.dream.job.jobs.JobScheduler;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 

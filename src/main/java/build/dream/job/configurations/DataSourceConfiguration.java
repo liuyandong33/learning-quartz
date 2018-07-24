@@ -1,4 +1,4 @@
-package build.dream.learning.configurations;
+package build.dream.job.configurations;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import org.springframework.boot.context.properties.ConfigurationProperties;
