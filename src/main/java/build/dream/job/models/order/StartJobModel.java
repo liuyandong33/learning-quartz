@@ -8,10 +8,32 @@ import java.util.Date;
 
 public class StartJobModel extends BasicModel {
     @NotNull
+    private BigInteger tenantId;
+
+    @NotNull
+    private BigInteger branchId;
+
+    @NotNull
     private BigInteger orderId;
 
     @NotNull
     private Date startTime;
+
+    public BigInteger getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(BigInteger tenantId) {
+        this.tenantId = tenantId;
+    }
+
+    public BigInteger getBranchId() {
+        return branchId;
+    }
+
+    public void setBranchId(BigInteger branchId) {
+        this.branchId = branchId;
+    }
 
     public BigInteger getOrderId() {
         return orderId;

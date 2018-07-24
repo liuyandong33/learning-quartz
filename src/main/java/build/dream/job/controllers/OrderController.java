@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.Map;
 
@@ -39,20 +40,24 @@ public class OrderController {
         startJobModel.validateAndThrow();
 
         String orderId = startJobModel.getOrderId().toString();
+        BigInteger tenantId = startJobModel.getTenantId();
+        BigInteger branchId = startJobModel.getBranchId();
         Date startTime = startJobModel.getStartTime();
 
         Scheduler scheduler = schedulerFactoryBean.getScheduler();
 
         JobBuilder jobBuilder = JobBuilder.newJob(OrderInvalidJob.class);
-        jobBuilder.withIdentity(orderId, ORDER_JOB_GROUP);
+        jobBuilder.withIdentity(tenantId + "_" + branchId + "_" + orderId, ORDER_JOB_GROUP);
         JobDetail orderInvalidJobDetail = jobBuilder.build();
         JobDataMap jobDataMap = orderInvalidJobDetail.getJobDataMap();
+        jobDataMap.put("tenantId", tenantId);
+        jobDataMap.put("branchId", branchId);
         jobDataMap.put("orderId", orderId);
 
         SimpleScheduleBuilder simpleScheduleBuilder = SimpleScheduleBuilder.simpleSchedule();
 
         TriggerBuilder<Trigger> triggerBuilder = TriggerBuilder.newTrigger();
-        triggerBuilder.withIdentity(orderId, ORDER_TRIGGER_GROUP);
+        triggerBuilder.withIdentity(tenantId + "_" + branchId + "_" + orderId, ORDER_TRIGGER_GROUP);
         triggerBuilder.withSchedule(simpleScheduleBuilder);
         triggerBuilder.startAt(startTime);
 
