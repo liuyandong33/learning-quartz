@@ -34,7 +34,7 @@ public class OrderController {
     @RequestMapping(value = "/startJob", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     @ApiRestAction(error = "开始失效订单定时任失败")
-    public String startSimpleJob() throws Exception {
+    public String startJob() throws Exception {
         Map<String, String> requestParameters = ApplicationHandler.getRequestParameters();
         StartJobModel startJobModel = ApplicationHandler.instantiateObject(StartJobModel.class, requestParameters);
         startJobModel.validateAndThrow();
