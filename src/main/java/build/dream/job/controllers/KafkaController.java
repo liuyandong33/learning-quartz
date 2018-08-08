@@ -25,8 +25,8 @@ import java.util.Map;
 @RequestMapping(value = "/kafka")
 public class KafkaController {
     private static final String PARTITION_CODE = ConfigurationUtils.getConfigurationSafe(Constants.PARTITION_CODE);
-    private static final String KAFKA_DELAY_SEND_JOB_GROUP = PARTITION_CODE + "_kafka_delay_send";
-    private static final String KAFKA_DELAY_SEND_TRIGGER_GROUP = PARTITION_CODE + "_kafka_delay_send";
+    private static final String KAFKA_DELAY_SEND_JOB_GROUP = PARTITION_CODE + "_fixed_time_send";
+    private static final String KAFKA_DELAY_SEND_TRIGGER_GROUP = PARTITION_CODE + "_fixed_time_send";
     @Autowired
     private SchedulerFactoryBean schedulerFactoryBean;
 
