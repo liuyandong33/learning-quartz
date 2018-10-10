@@ -1,47 +1,119 @@
 package build.dream.job.domains;
 
+import build.dream.common.constants.Constants;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.math.BigInteger;
 import java.util.Date;
 
+@Table
 @Entity
 public class Branch {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private BigInteger id;
-    private BigInteger tenantId;
-    private String tenantCode;
-    private String code;
-    private String name;
-    private Integer type;
-    private Integer status;
-    private String provinceCode;
-    private String provinceName;
-    private String cityCode;
-    private String cityName;
-    private String districtCode;
-    private String districtName;
-    private String address;
-    private String longitude;
-    private String latitude;
-    private String linkman;
-    private String contactPhone;
-    private Integer elemeAccountType;
-    private BigInteger shopId;
-    private Integer smartRestaurantStatus;
-    private String appAuthToken;
-    private String poiId;
-    private String poiName;
     private Date createTime;
     private BigInteger createUserId;
     private Date lastUpdateTime;
     private BigInteger lastUpdateUserId;
-    private String lastUpdateRemark = "";
+    private String lastUpdateRemark = Constants.VARCHAR_DEFAULT_VALUE;
     private Date deleteTime;
     private boolean deleted;
+    /**
+     * 商户id
+     */
+    private BigInteger tenantId;
+    /**
+     * 商户编码
+     */
+    private String tenantCode;
+    /**
+     * 门店编码
+     */
+    private String code;
+    /**
+     * 门店名称
+     */
+    private String name;
+    /**
+     * 门店类型，1-总部，2-直营店，3加盟店
+     */
+    private Integer type;
+    /**
+     * 门店状态，1-正常
+     */
+    private Integer status;
+    /**
+     * 省编码
+     */
+    private String provinceCode;
+    /**
+     * 省名称
+     */
+    private String provinceName;
+    /**
+     * 市编码
+     */
+    private String cityCode;
+    /**
+     * 市名称
+     */
+    private String cityName;
+    /**
+     * 区编码
+     */
+    private String districtCode;
+    /**
+     * 区名称
+     */
+    private String districtName;
+    /**
+     * 门店详细地址
+     */
+    private String address;
+    /**
+     * 经度
+     */
+    private String longitude;
+    /**
+     * 纬度
+     */
+    private String latitude;
+    /**
+     * 联系人
+     */
+    private String linkman;
+    /**
+     * 联系电话
+     */
+    private String contactPhone;
+    /**
+     * 饿了么账号类型，1-连锁账号，2-独立账号
+     */
+    private Integer elemeAccountType = Constants.ELEME_ACCOUNT_TYPE_CHAIN_ACCOUNT;
+    /**
+     * 饿了么门店id
+     */
+    private BigInteger shopId = Constants.BIGINT_DEFAULT_VALUE;
+    /**
+     * 微餐厅状态，1-正常，2-禁用
+     */
+    private Integer smartRestaurantStatus = Constants.SMART_RESTAURANT_STATUS_DISABLED;
+    /**
+     * 美团门店绑定的授权token
+     */
+    private String appAuthToken = Constants.VARCHAR_DEFAULT_VALUE;
+    /**
+     * 美团门店id
+     */
+    private String poiId = Constants.VARCHAR_DEFAULT_VALUE;
+    /**
+     * 美团门店名称
+     */
+    private String poiName = Constants.VARCHAR_DEFAULT_VALUE;
 
     public BigInteger getId() {
         return id;
@@ -49,6 +121,62 @@ public class Branch {
 
     public void setId(BigInteger id) {
         this.id = id;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public BigInteger getCreateUserId() {
+        return createUserId;
+    }
+
+    public void setCreateUserId(BigInteger createUserId) {
+        this.createUserId = createUserId;
+    }
+
+    public Date getLastUpdateTime() {
+        return lastUpdateTime;
+    }
+
+    public void setLastUpdateTime(Date lastUpdateTime) {
+        this.lastUpdateTime = lastUpdateTime;
+    }
+
+    public BigInteger getLastUpdateUserId() {
+        return lastUpdateUserId;
+    }
+
+    public void setLastUpdateUserId(BigInteger lastUpdateUserId) {
+        this.lastUpdateUserId = lastUpdateUserId;
+    }
+
+    public String getLastUpdateRemark() {
+        return lastUpdateRemark;
+    }
+
+    public void setLastUpdateRemark(String lastUpdateRemark) {
+        this.lastUpdateRemark = lastUpdateRemark;
+    }
+
+    public Date getDeleteTime() {
+        return deleteTime;
+    }
+
+    public void setDeleteTime(Date deleteTime) {
+        this.deleteTime = deleteTime;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 
     public BigInteger getTenantId() {
@@ -233,61 +361,5 @@ public class Branch {
 
     public void setPoiName(String poiName) {
         this.poiName = poiName;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public BigInteger getCreateUserId() {
-        return createUserId;
-    }
-
-    public void setCreateUserId(BigInteger createUserId) {
-        this.createUserId = createUserId;
-    }
-
-    public Date getLastUpdateTime() {
-        return lastUpdateTime;
-    }
-
-    public void setLastUpdateTime(Date lastUpdateTime) {
-        this.lastUpdateTime = lastUpdateTime;
-    }
-
-    public BigInteger getLastUpdateUserId() {
-        return lastUpdateUserId;
-    }
-
-    public void setLastUpdateUserId(BigInteger lastUpdateUserId) {
-        this.lastUpdateUserId = lastUpdateUserId;
-    }
-
-    public String getLastUpdateRemark() {
-        return lastUpdateRemark;
-    }
-
-    public void setLastUpdateRemark(String lastUpdateRemark) {
-        this.lastUpdateRemark = lastUpdateRemark;
-    }
-
-    public Date getDeleteTime() {
-        return deleteTime;
-    }
-
-    public void setDeleteTime(Date deleteTime) {
-        this.deleteTime = deleteTime;
-    }
-
-    public boolean isDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
     }
 }
