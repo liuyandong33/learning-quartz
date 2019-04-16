@@ -39,9 +39,9 @@ public class OrderController {
         StartJobModel startJobModel = ApplicationHandler.instantiateObject(StartJobModel.class, requestParameters);
         startJobModel.validateAndThrow();
 
-        String orderId = startJobModel.getOrderId().toString();
         BigInteger tenantId = startJobModel.getTenantId();
         BigInteger branchId = startJobModel.getBranchId();
+        BigInteger orderId = startJobModel.getOrderId();
         Date startTime = startJobModel.getStartTime();
 
         Scheduler scheduler = schedulerFactoryBean.getScheduler();
