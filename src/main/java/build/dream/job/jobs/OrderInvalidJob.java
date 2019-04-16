@@ -28,7 +28,7 @@ public class OrderInvalidJob implements Job {
         info.put("branchId", jobDataMap.get("branchId"));
         info.put("orderId", jobDataMap.get("orderId"));
 
-        String topic = ConfigurationUtils.getConfigurationSafe(Constants.ORDER_INVALID_MESSAGE_TOPIC);
+        String topic = ConfigurationUtils.getConfiguration(Constants.ORDER_INVALID_MESSAGE_TOPIC);
         kafkaTemplate.send(topic, UUID.randomUUID().toString(), GsonUtils.toJson(info));
     }
 }

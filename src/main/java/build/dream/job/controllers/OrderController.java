@@ -27,7 +27,7 @@ import java.util.Map;
 public class OrderController {
     @Autowired
     private SchedulerFactoryBean schedulerFactoryBean;
-    private static final String PARTITION_CODE = ConfigurationUtils.getConfigurationSafe(Constants.PARTITION_CODE);
+    private static final String PARTITION_CODE = ConfigurationUtils.getConfiguration(Constants.PARTITION_CODE);
     private static final String ORDER_JOB_GROUP = PARTITION_CODE + "_order";
     private static final String ORDER_TRIGGER_GROUP = PARTITION_CODE + "_order";
 
@@ -68,22 +68,27 @@ public class OrderController {
 
     @RequestMapping(value = "/stopJob", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
+    @ApiRestAction(error = "停止失效订单定时任失败")
     public String stopJob() throws Exception {
         Map<String, String> requestParameters = ApplicationHandler.getRequestParameters();
         StopJobModel stopJobModel = ApplicationHandler.instantiateObject(StopJobModel.class, requestParameters);
         stopJobModel.validateAndThrow();
 
-        String orderId = stopJobModel.getOrderId().toString();
+        BigInteger tenantId = stopJobModel.getTenantId();
+        BigInteger branchId = stopJobModel.getBranchId();
+        BigInteger orderId = stopJobModel.getOrderId();
+
+        String key = tenantId + "_" + branchId + "_" + orderId;
 
         Scheduler scheduler = schedulerFactoryBean.getScheduler();
-        TriggerKey triggerKey = TriggerKey.triggerKey(orderId, ORDER_JOB_GROUP);
+        TriggerKey triggerKey = TriggerKey.triggerKey(key, ORDER_JOB_GROUP);
 
         scheduler.pauseTrigger(triggerKey);
         scheduler.unscheduleJob(triggerKey);
 
-        JobKey jobKey = JobKey.jobKey(orderId, ORDER_TRIGGER_GROUP);
+        JobKey jobKey = JobKey.jobKey(key, ORDER_TRIGGER_GROUP);
         scheduler.deleteJob(jobKey);
 
-        return Constants.SUCCESS;
+        return GsonUtils.toJson(ApiRest.builder().message("停止失效订单定时任务成功！").successful(true).build());
     }
 }
