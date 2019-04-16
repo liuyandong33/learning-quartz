@@ -31,7 +31,7 @@ public class OrderController {
     private static final String ORDER_JOB_GROUP = PARTITION_CODE + "_order";
     private static final String ORDER_TRIGGER_GROUP = PARTITION_CODE + "_order";
 
-    @RequestMapping(value = "/startJob", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/startJob", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     @ApiRestAction(error = "开始失效订单定时任失败")
     public String startJob() throws Exception {
@@ -66,7 +66,7 @@ public class OrderController {
         return GsonUtils.toJson(ApiRest.builder().message("开始失效订单定时任务成功！").successful(true).build());
     }
 
-    @RequestMapping(value = "/stopJob", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/stopJob", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     @ApiRestAction(error = "停止失效订单定时任失败")
     public String stopJob() throws Exception {
