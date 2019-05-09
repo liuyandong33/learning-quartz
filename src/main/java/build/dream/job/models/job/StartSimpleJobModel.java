@@ -11,10 +11,6 @@ public class StartSimpleJobModel extends BasicModel {
 
     @NotNull
     private String jobGroup;
-    private Long interval;
-    private Integer repeatCount;
-    private Date startTime;
-    private Date endTime;
 
     @NotNull
     private String triggerName;
@@ -23,10 +19,16 @@ public class StartSimpleJobModel extends BasicModel {
     private String triggerGroup;
 
     @NotNull
-    private String jobClassName;
+    private Integer interval;
+    private Integer repeatCount;
+    private Date startTime;
+    private Date endTime;
 
     @NotNull
-    private String jobClassBase64;
+    private String topic;
+
+    @NotNull
+    private String data;
 
     public String getJobName() {
         return jobName;
@@ -44,11 +46,27 @@ public class StartSimpleJobModel extends BasicModel {
         this.jobGroup = jobGroup;
     }
 
-    public Long getInterval() {
+    public String getTriggerName() {
+        return triggerName;
+    }
+
+    public void setTriggerName(String triggerName) {
+        this.triggerName = triggerName;
+    }
+
+    public String getTriggerGroup() {
+        return triggerGroup;
+    }
+
+    public void setTriggerGroup(String triggerGroup) {
+        this.triggerGroup = triggerGroup;
+    }
+
+    public Integer getInterval() {
         return interval;
     }
 
-    public void setInterval(Long interval) {
+    public void setInterval(Integer interval) {
         this.interval = interval;
     }
 
@@ -76,35 +94,19 @@ public class StartSimpleJobModel extends BasicModel {
         this.endTime = endTime;
     }
 
-    public String getTriggerName() {
-        return triggerName;
+    public String getTopic() {
+        return topic;
     }
 
-    public void setTriggerName(String triggerName) {
-        this.triggerName = triggerName;
+    public void setTopic(String topic) {
+        this.topic = topic;
     }
 
-    public String getTriggerGroup() {
-        return triggerGroup;
+    public String getData() {
+        return data;
     }
 
-    public void setTriggerGroup(String triggerGroup) {
-        this.triggerGroup = triggerGroup;
-    }
-
-    public String getJobClassName() {
-        return jobClassName;
-    }
-
-    public void setJobClassName(String jobClassName) {
-        this.jobClassName = jobClassName;
-    }
-
-    public String getJobClassBase64() {
-        return jobClassBase64;
-    }
-
-    public void setJobClassBase64(String jobClassBase64) {
-        this.jobClassBase64 = jobClassBase64;
+    public void setData(String data) {
+        this.data = data;
     }
 }
