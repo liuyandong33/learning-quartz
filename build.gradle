@@ -4,11 +4,12 @@ version "1.0.0"
 buildscript {
     ext {
         springBootVersion = "2.0.0.RELEASE"
-        springCloudVersion = "Finchley.M9"
+        springCloudVersion = "Finchley.RELEASE"
+        projectName = "service-job"
     }
     repositories {
         mavenLocal()
-        maven { url "https://repo.spring.io/libs-milestone" }
+        maven { url "${mavenPublicRepositoryUrl}" }
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
@@ -20,10 +21,11 @@ apply plugin: "org.springframework.boot"
 apply plugin: "io.spring.dependency-management"
 apply plugin: "idea"
 apply plugin: "war"
+apply plugin: "maven-publish"
 
 repositories {
     mavenLocal()
-    maven { url "https://repo.spring.io/libs-milestone" }
+    maven { url "${mavenPublicRepositoryUrl}" }
 }
 
 dependencyManagement {
@@ -32,8 +34,13 @@ dependencyManagement {
     }
 }
 
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, "seconds"
+}
+
 dependencies {
-    compile fileTree(include: ["*.jar"], dir: "libs")
+    compile("build.dream:lib-common:0.1.0-SNAPSHOT")
+    compile("org.scala-lang:scala-library:2.12.5")
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-devtools")
     compile("org.springframework.boot:spring-boot-starter-quartz")
@@ -49,4 +56,44 @@ dependencies {
     compile("commons-codec:commons-codec:1.10")
     compile("net.sf.json-lib:json-lib:2.4:jdk15")
     compile("org.apache.tomcat.embed:tomcat-embed-jasper")
+}
+
+publishing {
+    repositories {
+        if (project.hasProperty("release")) {
+            maven {
+                url "${mavenReleasesRepositoryUrl}"
+                credentials {
+                    username = "${nexusUserName}"
+                    password = "${nexusPassword}"
+                }
+            }
+        } else {
+            maven {
+                url "${mavenSnapshotsRepositoryUrl}"
+                credentials {
+                    username = "${nexusUserName}"
+                    password = "${nexusPassword}"
+                }
+            }
+        }
+    }
+    publications {
+        maven(MavenPublication) {
+            artifacts = ["build/libs/${projectName}-${version}.jar"]
+
+            groupId group
+            if (!project.hasProperty("release")) {
+                version version + "-SNAPSHOT"
+            } else {
+                version version
+            }
+            artifactId projectName
+        }
+    }
+}
+
+bootJar {
+    launchScript {
+    }
 }

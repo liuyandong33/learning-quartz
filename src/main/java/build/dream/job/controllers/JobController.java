@@ -25,9 +25,9 @@ public class JobController {
     @Autowired
     private SchedulerFactoryBean schedulerFactoryBean;
 
-    @RequestMapping(value = "/stopJob", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/stopJob", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    @ApiRestAction(error = "停止失效订单定时任失败")
+    @ApiRestAction(error = "停止定时任失败")
     public String stopJob() throws Exception {
         Map<String, String> requestParameters = ApplicationHandler.getRequestParameters();
         StopJobModel stopJobModel = ApplicationHandler.instantiateObject(StopJobModel.class, requestParameters);
@@ -50,9 +50,9 @@ public class JobController {
         return GsonUtils.toJson(ApiRest.builder().message("停止定时任务成功！").successful(true).build());
     }
 
-    @RequestMapping(value = "/startSimpleJob", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/startSimpleJob", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    @ApiRestAction(error = "停止失效订单定时任失败")
+    @ApiRestAction(error = "开始简单定时任务失败")
     public String startSimpleJob() throws Exception {
         Map<String, String> requestParameters = ApplicationHandler.getRequestParameters();
         StartSimpleJobModel startSimpleJobModel = ApplicationHandler.instantiateObject(StartSimpleJobModel.class, requestParameters);
@@ -88,15 +88,15 @@ public class JobController {
 
         JobBuilder jobBuilder = JobBuilder.newJob(SimpleJob.class);
         jobBuilder.withIdentity(jobName, jobGroup);
-        JobDetail orderInvalidJobDetail = jobBuilder.build();
-        JobDataMap jobDataMap = orderInvalidJobDetail.getJobDataMap();
+        JobDetail jobDetail = jobBuilder.build();
+        JobDataMap jobDataMap = jobDetail.getJobDataMap();
         jobDataMap.put("topic", topic);
         jobDataMap.put("data", data);
 
         Trigger trigger = triggerBuilder.build();
 
         Scheduler scheduler = schedulerFactoryBean.getScheduler();
-        scheduler.scheduleJob(orderInvalidJobDetail, trigger);
-        return GsonUtils.toJson(ApiRest.builder().message("开始失效订单定时任务成功！").successful(true).build());
+        scheduler.scheduleJob(jobDetail, trigger);
+        return GsonUtils.toJson(ApiRest.builder().message("开始简单定时任务成功！").successful(true).build());
     }
 }
