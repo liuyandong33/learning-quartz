@@ -69,7 +69,11 @@ public class JobController {
         String topic = startSimpleJobModel.getTopic();
         String data = startSimpleJobModel.getData();
 
-        SimpleScheduleBuilder simpleScheduleBuilder = SimpleScheduleBuilder.repeatSecondlyForever(interval);
+        SimpleScheduleBuilder simpleScheduleBuilder = SimpleScheduleBuilder.simpleSchedule();
+        if (interval != null) {
+            simpleScheduleBuilder.withIntervalInSeconds(interval);
+        }
+
         if (repeatCount != null) {
             simpleScheduleBuilder.withRepeatCount(repeatCount);
         }

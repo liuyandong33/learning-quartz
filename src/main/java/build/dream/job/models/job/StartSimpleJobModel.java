@@ -18,7 +18,6 @@ public class StartSimpleJobModel extends BasicModel {
     @NotNull
     private String triggerGroup;
 
-    @NotNull
     private Integer interval;
     private Integer repeatCount;
     private Date startTime;
