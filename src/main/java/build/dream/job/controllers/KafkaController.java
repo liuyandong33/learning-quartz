@@ -14,9 +14,7 @@ import build.dream.job.models.kafka.FixedTimeSendModel;
 import org.quartz.JobDataMap;
 import org.quartz.JobKey;
 import org.quartz.TriggerKey;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -35,8 +33,6 @@ public class KafkaController {
     private static final String KAFKA_FIXED_TIME_SEND_JOB_GROUP = PARTITION_CODE + "_kafka_fixed_time_send";
     private static final String KAFKA_FIXED_TIME_SEND_TRIGGER_NAME_PREFIX = PARTITION_CODE + "_kafka_fixed_time_send_";
     private static final String KAFKA_FIXED_TIME_SEND_TRIGGER_GROUP = PARTITION_CODE + "_kafka_fixed_time_send";
-    @Autowired
-    private SchedulerFactoryBean schedulerFactoryBean;
 
     @RequestMapping(value = "/fixedTimeSend", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
