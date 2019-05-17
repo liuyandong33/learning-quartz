@@ -44,7 +44,7 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-devtools")
     compile("org.springframework.boot:spring-boot-starter-quartz")
-    compile("org.springframework.boot:spring-boot-starter-data-jpa")
+    compile("org.springframework.boot:spring-boot-starter-jdbc")
     compile("org.springframework.boot:spring-boot-starter-data-redis")
     compile("org.springframework.cloud:spring-cloud-starter-zookeeper-discovery")
     compile("org.springframework.cloud:spring-cloud-starter-zookeeper-config")
@@ -57,6 +57,7 @@ dependencies {
     compile("net.sf.json-lib:json-lib:2.4:jdk15")
     compile("org.apache.tomcat.embed:tomcat-embed-jasper")
     compile("org.apache.commons:commons-lang3:3.7")
+
 }
 
 publishing {
