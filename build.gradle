@@ -56,6 +56,7 @@ dependencies {
     compile("commons-codec:commons-codec:1.10")
     compile("net.sf.json-lib:json-lib:2.4:jdk15")
     compile("org.apache.tomcat.embed:tomcat-embed-jasper")
+    compile("org.apache.commons:commons-lang3:3.7")
 }
 
 publishing {

@@ -10,9 +10,6 @@ public class FixedTimeSendModel extends BasicModel {
     private String topic;
 
     @NotNull
-    private String key;
-
-    @NotNull
     private String data;
 
     @NotNull
@@ -24,14 +21,6 @@ public class FixedTimeSendModel extends BasicModel {
 
     public void setTopic(String topic) {
         this.topic = topic;
-    }
-
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
     }
 
     public String getData() {
