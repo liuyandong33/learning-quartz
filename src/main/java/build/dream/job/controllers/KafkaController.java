@@ -11,6 +11,7 @@ import build.dream.common.utils.JobUtils;
 import build.dream.job.jobs.KafkaFixedTimeSendJob;
 import build.dream.job.models.kafka.CancelFixedTimeSendModel;
 import build.dream.job.models.kafka.FixedTimeSendModel;
+import org.apache.commons.lang.RandomStringUtils;
 import org.quartz.JobDataMap;
 import org.quartz.JobKey;
 import org.quartz.TriggerKey;
@@ -23,7 +24,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 @Controller
 @RequestMapping(value = "/kafka")
@@ -50,9 +50,9 @@ public class KafkaController {
         jobDataMap.put("topic", topic);
         jobDataMap.put("data", data);
 
-        String jobName = KAFKA_FIXED_TIME_SEND_JOB_NAME_PREFIX + UUID.randomUUID().toString();
+        String jobName = KAFKA_FIXED_TIME_SEND_JOB_NAME_PREFIX + RandomStringUtils.randomAlphanumeric(50);
         String jobGroup = KAFKA_FIXED_TIME_SEND_JOB_GROUP;
-        String triggerName = KAFKA_FIXED_TIME_SEND_TRIGGER_NAME_PREFIX + UUID.randomUUID().toString();
+        String triggerName = KAFKA_FIXED_TIME_SEND_TRIGGER_NAME_PREFIX + RandomStringUtils.randomAlphanumeric(50);
         String triggerGroup = KAFKA_FIXED_TIME_SEND_TRIGGER_GROUP;
         ScheduleSimpleJobModel scheduleSimpleJobModel = ScheduleSimpleJobModel.builder()
                 .jobName(jobName)
