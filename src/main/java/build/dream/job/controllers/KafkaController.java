@@ -50,28 +50,24 @@ public class KafkaController {
         jobDataMap.put("topic", topic);
         jobDataMap.put("data", data);
 
-        String jobName = KAFKA_FIXED_TIME_SEND_JOB_NAME_PREFIX + RandomStringUtils.randomAlphanumeric(50);
-        String jobGroup = KAFKA_FIXED_TIME_SEND_JOB_GROUP;
-        String triggerName = KAFKA_FIXED_TIME_SEND_TRIGGER_NAME_PREFIX + RandomStringUtils.randomAlphanumeric(50);
-        String triggerGroup = KAFKA_FIXED_TIME_SEND_TRIGGER_GROUP;
+        String jobId = RandomStringUtils.randomAlphanumeric(50);
+        String triggerId = RandomStringUtils.randomAlphanumeric(50);
         ScheduleSimpleJobModel scheduleSimpleJobModel = ScheduleSimpleJobModel.builder()
-                .jobName(jobName)
-                .jobGroup(jobGroup)
+                .jobName(KAFKA_FIXED_TIME_SEND_JOB_NAME_PREFIX + jobId)
+                .jobGroup(KAFKA_FIXED_TIME_SEND_JOB_GROUP)
                 .jobClass(KafkaFixedTimeSendJob.class)
                 .jobDescription("Kafka定时发送")
                 .jobDataMap(jobDataMap)
-                .triggerName(triggerName)
-                .triggerGroup(triggerGroup)
+                .triggerName(KAFKA_FIXED_TIME_SEND_TRIGGER_NAME_PREFIX + triggerId)
+                .triggerGroup(KAFKA_FIXED_TIME_SEND_TRIGGER_GROUP)
                 .triggerDescription("Kafka定时发送")
                 .startTime(sendTime)
                 .build();
         JobUtils.scheduleSimpleJob(scheduleSimpleJobModel);
 
         Map<String, Object> result = new HashMap<String, Object>();
-        result.put("jobName", jobName);
-        result.put("jobGroup", jobGroup);
-        result.put("triggerName", triggerName);
-        result.put("triggerGroup", triggerGroup);
+        result.put("jobId", jobId);
+        result.put("triggerId", triggerId);
         return GsonUtils.toJson(ApiRest.builder().data(result).message("设置Kafka定时发送消息成功！").successful(true).build());
     }
 
@@ -83,18 +79,16 @@ public class KafkaController {
         CancelFixedTimeSendModel cancelFixedTimeSendModel = ApplicationHandler.instantiateObject(CancelFixedTimeSendModel.class, requestParameters);
         cancelFixedTimeSendModel.validateAndThrow();
 
-        String jobName = cancelFixedTimeSendModel.getJobName();
-        String jobGroup = cancelFixedTimeSendModel.getJobGroup();
-        String triggerName = cancelFixedTimeSendModel.getTriggerName();
-        String triggerGroup = cancelFixedTimeSendModel.getTriggerGroup();
+        String jobId = cancelFixedTimeSendModel.getJobId();
+        String triggerId = cancelFixedTimeSendModel.getTriggerId();
 
-        TriggerKey triggerKey = TriggerKey.triggerKey(jobName, jobGroup);
+        TriggerKey triggerKey = TriggerKey.triggerKey(KAFKA_FIXED_TIME_SEND_TRIGGER_NAME_PREFIX + triggerId, KAFKA_FIXED_TIME_SEND_TRIGGER_GROUP);
         if (JobUtils.checkExists(triggerKey)) {
             JobUtils.pauseTrigger(triggerKey);
             JobUtils.unscheduleJob(triggerKey);
         }
 
-        JobKey jobKey = JobKey.jobKey(triggerName, triggerGroup);
+        JobKey jobKey = JobKey.jobKey(KAFKA_FIXED_TIME_SEND_JOB_NAME_PREFIX + jobId, KAFKA_FIXED_TIME_SEND_JOB_GROUP);
         if (JobUtils.checkExists(jobKey)) {
             JobUtils.deleteJob(jobKey);
         }

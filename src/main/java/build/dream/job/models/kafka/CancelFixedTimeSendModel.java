@@ -6,43 +6,23 @@ import javax.validation.constraints.NotNull;
 
 public class CancelFixedTimeSendModel extends BasicModel {
     @NotNull
-    private String jobName;
+    private String jobId;
     @NotNull
-    private String jobGroup;
-    @NotNull
-    private String triggerName;
-    @NotNull
-    private String triggerGroup;
+    private String triggerId;
 
-    public String getJobName() {
-        return jobName;
+    public String getJobId() {
+        return jobId;
     }
 
-    public void setJobName(String jobName) {
-        this.jobName = jobName;
+    public void setJobId(String jobId) {
+        this.jobId = jobId;
     }
 
-    public String getJobGroup() {
-        return jobGroup;
+    public String getTriggerId() {
+        return triggerId;
     }
 
-    public void setJobGroup(String jobGroup) {
-        this.jobGroup = jobGroup;
-    }
-
-    public String getTriggerName() {
-        return triggerName;
-    }
-
-    public void setTriggerName(String triggerName) {
-        this.triggerName = triggerName;
-    }
-
-    public String getTriggerGroup() {
-        return triggerGroup;
-    }
-
-    public void setTriggerGroup(String triggerGroup) {
-        this.triggerGroup = triggerGroup;
+    public void setTriggerId(String triggerId) {
+        this.triggerId = triggerId;
     }
 }
