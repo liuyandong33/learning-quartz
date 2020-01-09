@@ -1,7 +1,6 @@
 package build.dream.job.controllers;
 
 import build.dream.common.annotations.ApiRestAction;
-import build.dream.job.jobs.DeleteAllJobsModel;
 import build.dream.job.models.job.RefreshJobsModel;
 import build.dream.job.services.JobService;
 import org.springframework.http.MediaType;
@@ -16,14 +15,6 @@ public class JobController {
     @ResponseBody
     @ApiRestAction(modelClass = RefreshJobsModel.class, serviceClass = JobService.class, serviceMethodName = "refreshJobs", error = "刷新定时任务失败")
     public String refreshJobs() {
-        return null;
-    }
-
-
-    @RequestMapping(value = "/deleteAllJobs", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ResponseBody
-    @ApiRestAction(modelClass = DeleteAllJobsModel.class, serviceClass = JobService.class, serviceMethodName = "deleteAllJobs", error = "删除所有定时任务成功")
-    public String deleteAllJobs() {
         return null;
     }
 }

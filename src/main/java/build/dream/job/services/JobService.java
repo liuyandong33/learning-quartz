@@ -80,27 +80,4 @@ public class JobService {
 
         return ApiRest.builder().successful(true).build();
     }
-
-    @Transactional(rollbackFor = Exception.class)
-    public ApiRest deleteAllJobs(DeleteAllJobsModel deleteAllJobsModel) throws SchedulerException {
-        Scheduler scheduler = JobUtils.obtainScheduler();
-        List<String> triggerGroupNames = scheduler.getTriggerGroupNames();
-        for (String triggerGroupName : triggerGroupNames) {
-            GroupMatcher groupMatcher = GroupMatcher.groupEquals(triggerGroupName);
-            Set<TriggerKey> triggerKeys = scheduler.getTriggerKeys(groupMatcher);
-            for (TriggerKey triggerKey : triggerKeys) {
-                JobUtils.unscheduleJob(triggerKey);
-            }
-        }
-
-        List<String> jobGroupNames = scheduler.getJobGroupNames();
-        for (String jobGroupName : jobGroupNames) {
-            GroupMatcher groupMatcher = GroupMatcher.groupEquals(jobGroupName);
-            Set<JobKey> jobKeys = scheduler.getJobKeys(groupMatcher);
-            for (JobKey jobKey : jobKeys) {
-                JobUtils.deleteJob(jobKey);
-            }
-        }
-        return ApiRest.builder().successful(true).build();
-    }
 }
