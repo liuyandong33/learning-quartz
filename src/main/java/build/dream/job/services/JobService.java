@@ -25,8 +25,6 @@ import java.util.stream.Collectors;
 public class JobService {
     @Transactional(rollbackFor = Exception.class)
     public ApiRest refreshJobs(RefreshJobsModel refreshJobsModel) throws SchedulerException, ClassNotFoundException {
-        Scheduler scheduler = JobUtils.obtainScheduler();
-
         SearchModel searchModel = SearchModel.builder()
                 .autoSetDeletedFalse()
                 .build();
